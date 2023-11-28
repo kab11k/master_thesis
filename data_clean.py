@@ -141,3 +141,5 @@ df_merged.loc[df_merged['year'] >= 1996, 'avg_governance_score'] = df_merged.loc
 
 ##################################################################################################################
 df_merged.to_csv(f'/content/drive/MyDrive/master_thesis/df_clean.csv', index=False) #save cleaned dataset for use in prediction models
+df_EZZ_landings.to_csv(f'/content/drive/MyDrive/master_thesis/df_EZZ_landings.csv', index=False) #save for exploratory data anaylsis in report
+df_domestic_fleet_landings.to_csv(f'/content/drive/MyDrive/master_thesis/df_domestic_fleet_landings.csv', index=False) #save for exploratory data anaylsis in report
