@@ -39,9 +39,11 @@ df = pd.read_csv("/content/drive/MyDrive/master_thesis/df_clean.csv")
 df=df[df['area_name']!='South Africa'].copy()
 #set baseline MAE (These are the MAE values resulting from the baseline model for periods 1 and 2 with horizons 1 year and 11 years):
 MAE_1_2005_2010=20071.994239899
+MAE_5_2005_2010=41751.8767145466
 MAE_11_2005_2010=58121.5629626857
 
 MAE_1_2013_2019=25772.3083759616
+MAE_5_2013_2019=57168.9294177568
 MAE_11_2013_2019=80186.8393054145
 
 ##################################################################################################################
