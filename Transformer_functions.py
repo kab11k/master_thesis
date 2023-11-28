@@ -717,3 +717,82 @@ def create_GluonTS_dataset(data, start, stop, prediction_length, dep_var, pred_v
   dataset_test_original.set_transform(partial(transform_start_field, freq=freq))
 
   return dataset_train, dataset_test, dataset_val, dataset_test_original
+
+
+def grid_search(param_grid):
+    all_names = sorted(param_grid)
+    combinations = list(product(*(param_grid[name] for name in all_names)))
+    best_score = float('inf')
+    best_params = None
+
+    hyperparams = []
+
+    for combination in combinations:
+        params = dict(zip(all_names, combination))
+
+        num_dynamic_real_features=len(pred_var)
+        inverted_forecast_median = [] #initialize list for forecasts
+        inverted_forecast_mean = []
+        inverted_forecast_std = []
+
+        for i in range(forecast_start,forecast_stop+1):
+          start=stop=i
+
+          dataset_train, dataset_test, dataset_val, dataset_test_original = create_GluonTS_dataset (df_scaled, start, stop, prediction_length, dep_var, pred_var)
+
+          config = TimeSeriesTransformerConfig(
+          prediction_length=prediction_length,
+          context_length=params['context_length'],
+          lags_sequence=lags_sequence,
+          num_time_features=len(time_features) + 1,
+          num_static_categorical_features=1,
+          cardinality=[len(dataset_train)],
+          embedding_dimension=embedding_dimension,
+          dropout=params['dropout'],
+          num_dynamic_real_features=num_dynamic_real_features,
+
+          encoder_layers=params['encoder_layers'],
+          decoder_layers=params['decoder_layers'],
+          d_model=params['d_model'],)
+
+          forecasts = transformer_build(
+            config=config,
+            freq=freq,
+            dataset_train=dataset_train,
+            dataset_test=dataset_test,
+            dataset_val=dataset_val,
+            batch_size=params['batch_size'],
+            num_batches_per_epoch=params['num_batches_per_epoch'],
+            learning_rate=params['learning_rate'],
+            betas=params['betas'],
+            weight_decay=params['weight_decay'],
+            epochs=params['epochs'],
+            patience=patience,
+            verbose=0,
+            filename=filename,
+            save_path=save_path)
+
+          preds_median, preds_mean, preds_std = invert_forecasts(forecasts, dataset_test_original)
+
+          #keep only lst forecast:
+          preds_median = preds_median[:, -1][:, np.newaxis]
+          preds_mean = preds_mean[:, -1][:, np.newaxis]
+          preds_std = preds_std[:, -1][:, np.newaxis]
+
+          if len(inverted_forecast_median) == 0:
+            inverted_forecast_median = preds_median
+            inverted_forecast_mean = preds_mean
+            inverted_forecast_std = preds_std
+          else:
+            inverted_forecast_median = np.hstack((inverted_forecast_median, preds_median))
+            inverted_forecast_mean = np.hstack((inverted_forecast_mean, preds_mean))
+            inverted_forecast_std = np.hstack((inverted_forecast_std, preds_std))
+
+        performance = evaluate_model(dataset_test_original, inverted_forecast_median, forecast_start, forecast_stop, pred_var)
+        current_score = performance[performance['Country']=='Average - All countries']['MSE'].values
+
+        hyperparams.append(list((params, current_score)))
+        hyperparams_df = pd.DataFrame(hyperparams)
+        hyperparams_df.to_csv(f'/content/drive/MyDrive/master_thesis/results/Transformer/hyperparam/h_5/hyperparams_{filename}.csv', index=False)
+
+    return hyperparams_df
