@@ -33,6 +33,64 @@ import ARIMA_functions
 drive.mount('/content/drive')
 
 ##################################################################################################################
+#import cleaned dataset:
+df = pd.read_csv("/content/drive/MyDrive/master_thesis/df_clean.csv")
+#exclude South Africa:
+df=df[df['area_name']!='South Africa'].copy()
+
+#Data Transformation:
+
+#years with 0 are NA in data. Need to replace with 0s to differentiate between actual missing data.
+cols = ['foreign_landings', 'foreign_Reported_landings', 'foreign_Unreported_landings']
+df[cols] = df[cols].fillna(0)
+
+#hampel filtering:
+#Identify outliers and replace with rolling mean:
+
+cols_used = ['domestic_fleet_landings', 'effort','CPUE',
+             'foreign_landings', 'foreign_Reported_landings','foreign_Unreported_landings']
+
+#Identify outliers and replace with 5-year rolling average:
+df_hampel = pd.DataFrame()
+
+# Loop through each country
+for country in df['area_name'].unique():
+    country_data = df[df['area_name'] == country].copy().reset_index(drop=True)  # Subset data for the current country and reset index
+
+    # Loop through each time series column
+    for column in cols_used:
+        # Apply Hampel function to replace outliers
+        data_series = country_data[column].squeeze().reset_index(drop=True) #hampel function requires that data be in pandas series form
+        original_values = data_series.copy()
+        hampel_series = hampel(data_series, window_size=5, n_sigma=3.0)
+        country_data[column] = hampel_series.filtered_data #covert series back to dataframe column
+
+        # Print the replaced values
+        #replaced_values = original_values[original_values != hampel_series]
+        #for replaced_value in replaced_values:
+        #    print(f"Replaced outlier: {replaced_value} in column {column} for country {country}")
+
+    # Update the dataframe with the modified data for the current country
+    df_hampel = pd.concat([df_hampel, country_data], ignore_index=True)
+  
+#Percent change transformation:
+#Transform data to year over year percent change:
+cols_used = ['domestic_fleet_landings', 'effort','CPUE',
+             'foreign_landings', 'foreign_Reported_landings','foreign_Unreported_landings',
+             'sst', 'chlorophyll', 'avg_governance_score']
+
+df_perc = df_hampel.sort_values(['area_name', 'year'])
+grouped = df_perc.groupby('area_name')# group by country
+
+replacement_value = 0.000001 #need to replace 0 landings with a small, insignificant value so that percent changes can be calculated without losing records where landings were truely 0
+
+for column in cols_used:
+  df_perc[column] = df_perc[column].replace(0, replacement_value)
+  df_perc[column + '_change'] = grouped[column].pct_change().replace([np.inf, -np.inf], np.nan)
+
+df_perc.index = pd.DatetimeIndex(pd.to_datetime(df_perc['year'], format='%Y')) #set year as index
+
+##################################################################################################################
 #Function to produce final ARIMA final forecasts (i.e, non-iterative):
 
 #Fit auto arima and perform iterative forecasts:
