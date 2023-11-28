@@ -1,0 +1,39 @@
+﻿model,exog_vars,step,2005_2010_MAE,2013_2019_MAE,,
+ARIMA,none,1, 0.129 , 0.126 ,, -0.00 
+ARIMA,sst,1, 0.138 , 0.133 ,, -0.00 
+ARIMA,none,11, 0.138 , 0.154 ,, 0.02 
+ARIMA,sst,11, 0.170 , 0.163 ,, -0.01 
+LSTM,none,1, 0.094 , 0.090 ,, -0.00 
+LSTM,"cpue, effort",1, 0.096 , 0.181 ,, 0.08 
+LSTM,"cpue, effort, foreign rep v unrep",1, 0.082 , 0.189 ,, 0.11 
+LSTM,"cpue, effort, sst",1, 0.097 , 0.168 ,, 0.07 
+LSTM,"cpue, effort, sst, foreign",1, 0.124 , 0.103 ,, -0.02 
+LSTM,"cpue, effort, sst, foreign rep v unrep",1, 0.101 , 0.114 ,, 0.01 
+LSTM,foreign,1, 0.090 , 0.087 ,, -0.00 
+LSTM,foreign rep v unrep,1, 0.084 , 0.086 ,, 0.00 
+LSTM,gov,1, 0.087 , 0.100 ,, 0.01 
+LSTM,none,11, 0.205 , 0.269 ,, 0.06 
+LSTM,"cpue, effort",11, 0.204 , 0.217 ,, 0.01 
+LSTM,"cpue, effort, foreign rep v unrep",11, 0.218 , 0.240 ,, 0.02 
+LSTM,"cpue, effort, sst",11, 0.179 , 0.245 ,, 0.07 
+LSTM,"cpue, effort, sst, foreign",11, 0.177 , 0.204 ,, 0.03 
+LSTM,"cpue, effort, sst, foreign rep v unrep",11, 0.147 , 0.202 ,, 0.05 
+LSTM,foreign,11, 0.209 , 0.261 ,, 0.05 
+LSTM,foreign rep v unrep,11, 0.229 , 0.274 ,, 0.04 
+LSTM,gov,11, 0.202 , 0.246 ,, 0.04 
+Transformer,none,1, 0.059 , 0.057 ,, -0.00 
+Transformer,chl,1, 0.066 , 0.057 ,, -0.01 
+Transformer,"cpue, effort, foreign",1, 0.061 , 0.067 ,, 0.01 
+Transformer,"cpue, effort, foreign rep v unrep",1, 0.065 , 0.056 ,, -0.01 
+Transformer,"cpue, effort, sst, foreign",1, 0.065 , 0.059 ,, -0.01 
+Transformer,foreign,1, 0.061 , 0.057 ,, -0.00 
+Transformer,gov,1, 0.071 , 0.079 ,, 0.01 
+Transformer,"sst, foreign rep v unrep",1, 0.063 , 0.071 ,, 0.01 
+Transformer,none,11, 0.164 , 0.212 ,, 0.05 
+Transformer,chl,11, 0.123 , 0.158 ,, 0.03 
+Transformer,"cpue, effort, foreign",11, 0.186 , 0.288 ,, 0.10 
+Transformer,"cpue, effort, foreign rep v unrep",11, 0.173 , 0.213 ,, 0.04 
+Transformer,"cpue, effort, sst, foreign",11, 0.175 , 0.168 ,, -0.01 
+Transformer,foreign,11, 0.207 , 0.316 ,, 0.11 
+Transformer,gov,11, 0.151 , 0.159 ,, 0.01 
+,,,,,,

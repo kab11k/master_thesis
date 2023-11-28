@@ -1,0 +1,9 @@
+﻿model,exog_vars,step,2005_2010_MAE,2013_2019_MAE
+ARIMA,"cpue, effort",1,0.088,0.191
+ARIMA,"cpue, effort, foreign",1,0.117,0.172
+ARIMA,"cpue, effort, foreign rep v unrep",1,0.065,0.189
+ARIMA,"cpue, effort, sst",1,0.089,0.146
+ARIMA,"cpue, effort",11,0.08,0.13
+ARIMA,"cpue, effort, foreign",11,0.075,0.243
+ARIMA,"cpue, effort, foreign rep v unrep",11,0.086,0.209
+ARIMA,"cpue, effort, sst",11,0.101,0.126
