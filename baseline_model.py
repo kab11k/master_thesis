@@ -16,8 +16,10 @@ performance_metrics = pd.DataFrame()
 
 input_configs = [
     (df, 2005, 2010, 1),
+    (df, 2005, 2010, 5),
     (df, 2005, 2010, 11),
     (df, 2013, 2019, 1),
+    (df, 2013, 2019, 5),
     (df, 2013, 2019, 11),
 ]
 
