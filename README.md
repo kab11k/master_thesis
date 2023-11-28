@@ -8,7 +8,7 @@ ARIMA, LSTM, and Transformer models were fit to the historical domestic fleet la
 
 # Running instructions:
 
-NOAA_data_prep.py : connects to the National Oceanic and Atmospheric Administration's data repositories and pulls down sst and chl-a data for years 1982-2021 and 1997-2022, respectively. The resulting data from this code can be found saved in the 'data' folder. This code does not need to be run unless adding additional years of data and refreshing analyses.
+NOAA_data_prep.py : connects to the National Oceanic and Atmospheric Administration's data repositories and pulls down sst and chl-a data for years 1982-2021 and 1997-2022, respectively. The resulting sst data from this code can be found saved in the 'data' folder (chl files were too big to upload to github. Please reach out if needed). This code does not need to be run unless adding additional years of data and refreshing analyses.
 
 data_clean.py : contains code to clean the data for landings and exogenous variables. The  resulting data from this code can be found in the 'data' folder. This code does not need to be run unless adding additional years of data and refreshing analyses.
 
