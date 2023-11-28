@@ -31,6 +31,13 @@ import pickle
 from hampel import hampel
 drive.mount('/content/drive')
 
+#baseline MAE (MAE values resulting from baseline model, for comparison):
+MAE_1_2005_2010=20071.994239899
+MAE_11_2005_2010=58121.5629626857
+
+MAE_1_2013_2019=25772.3083759616
+MAE_11_2013_2019=80186.8393054145
+
 ##################################################################################################################
 #Fit auto arima and perform iterative forecasts:
 def arima_training(data, dep_var, forecast_start, forecast_stop, steps, exog_var=None):
